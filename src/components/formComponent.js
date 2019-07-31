@@ -9,7 +9,6 @@ export class CreateFormComponent extends React.Component {
     };
   }
   render() {
-      console.log(this.state.value)
     return (
       <Form.Group controlId={this.props.id}>
         <Form.Label>{this.props.title}</Form.Label>
