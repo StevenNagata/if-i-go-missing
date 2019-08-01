@@ -10,7 +10,7 @@ export class Navigation extends React.Component {
   render() {
     return (
         <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">In Case I Go Missing</Navbar.Brand>
+        <Navbar.Brand href="/home">I.C.I.G.M</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/myTrusties">Trusties</Nav.Link>
