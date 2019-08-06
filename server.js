@@ -15,16 +15,31 @@ let users = [
     username: "nagata.steven1@gmail.com",
     trusties: [
       {
+        id: 2,
         username: "tifflui25@yahoo.com",
-        reportedYouAsMissing: false
+        reportedAsMissing: false
       },
       {
+        id:3,
         username: "andre300@gmail.com",
-        reportedYouAsMissing: true
+        reportedAsMissing: true
       },
       {
+        id: 5,
         username: "andyrezz33@gmail.com",
-        reportedYouAsMissing: false
+        reportedAsMissing: false
+      }
+    ],
+    entrusties: [
+      {
+        id: 2,
+        username: "tifflui25@yahoo.com",
+        reportedAsMissing: false
+      },
+      {
+        id: 3,
+        username: "andre300@gmail.com",
+        reportedAsMissing: true
       }
     ]
   },
@@ -33,16 +48,19 @@ let users = [
     username: "tifflui25@gmail.com",
     trusties: [
       {
+        id: 1,
         username: "nagata.steven1@gmail.com",
-        reportedYouAsMissing: false
+        reportedAsMissing: false
       },
       {
+        id: 3,
         username: "andre300@gmail.com",
-        reportedYouAsMissing: false
+        reportedAsMissing: false
       },
       {
+        id: 4,
         username: "andyrezz33@gmail.com",
-        reportedYouAsMissing: true
+        reportedAsMissing: true
       }
     ]
   }
@@ -61,6 +79,36 @@ app.post("/user", (req, res) => {
   res.json(currUser);
 })
 
+
+app.post("/updateMissingFlag", (req,res) => {
+  const updatedUsers = users.map(user => {
+    if(user.id.toString() === req.body.requesterId.toString()) {
+      const updatedEntrusties = user.entrusties.map(entrustiee => {
+        if(entrustiee.id.toString() === req.body.id.toString()) {
+          return Object.assign({}, entrustiee, {reportedAsMissing: !entrustiee.reportedAsMissing})
+        } else {
+          return Object.assign({}, entrustiee)
+        }
+      })
+      return Object.assign({}, user, {entrusties: updatedEntrusties})
+    }
+    else if(user.id.toString() === req.body.id.toString()) {
+      const updatedTrusties = user.trusties.map(trustie => {
+        if(trustie.id.toString() === req.body.requesterId.toString()) {
+          return Object.assign({}, trustie, {reportedAsMissing: !trustie.reportedAsMissing})
+        } else {
+          return Object.assign({}, trustie)
+        }
+      })
+      return Object.assign({}, user, {trusties: updatedTrusties})
+    } else {
+      return Object.assign({}, user)
+    }
+  })
+  users = updatedUsers
+  const currUser = users.filter(user => user.id === req.body.requesterId)
+  res.json(currUser);
+})
 
 app.get("/user/:userId", (req, res) => {
   const user = users.filter(user => user.id.toString() === req.params.userId)
