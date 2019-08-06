@@ -40,7 +40,7 @@ class Trusties extends React.Component {
     );
     copyOfEditedTrusties.push({
       username: event.target.newTrustie.value,
-      reportedYouAsMissing: false
+      reportedAsMissing: false
     });
     this.setState({ editedTrusties: copyOfEditedTrusties });
     event.target.reset();
@@ -90,7 +90,7 @@ class Trusties extends React.Component {
             <ListGroup>
               {!this.state.editMode
                 ? this.state.trusties.map(user => {
-                    const marked = user.reportedYouAsMissing
+                    const marked = user.reportedAsMissing
                       ? {
                           color: "#F8D7DA",
                           text: "has marked you as missing!"

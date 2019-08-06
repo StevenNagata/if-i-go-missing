@@ -14,6 +14,7 @@ export class Navigation extends React.Component {
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/myTrusties">Trusties</Nav.Link>
+          <Nav.Link href="/myEntrusties">Entrusties</Nav.Link>
           <Nav.Link href="/myAccount">Account</Nav.Link>
         </Nav>
       </Navbar>
