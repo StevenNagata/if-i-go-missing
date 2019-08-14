@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Home from "../src/pages/home";
+import MyInfo from "../src/pages/home";
 import Trusties from "../src/pages/trusties";
 import Entrusties from "../src/pages/entrusties";
 import Navigation from "../src/components/NavBar";
@@ -22,12 +22,17 @@ class App extends React.Component {
     return (
       <div>
         <MyProvider>
-          
           <React.Fragment>
             <Router>
-            <Navigation appState={this.state} updateUser={this.updateUser} />
+              <Navigation appState={this.state} updateUser={this.updateUser} />
               <Switch>
-                <Route exact path="/" component={Home} />
+                <Route
+                  exact
+                  path="/myInfo"
+                  render={props => (
+                    <MyInfo {...props} accounts={this.state.user.accounts} />
+                  )}
+                />
                 <Route exact path="/myTrusties" component={Trusties} />
                 <Route exact path="/myEntrusties" component={Entrusties} />
                 <Route
@@ -45,7 +50,5 @@ class App extends React.Component {
     );
   }
 }
-
-
 
 export default App;

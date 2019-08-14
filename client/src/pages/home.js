@@ -2,28 +2,13 @@ import React from "react";
 import { Container, Col, Form, ListGroup, Button } from "react-bootstrap";
 import { CreateFormComponent } from "../components/formComponent";
 
-class Home extends React.Component {
+class MyInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       addAccount: true,
       editNum: null,
-      accounts: [
-        {
-          account: "Wells Fargo",
-          username: "nagata.steven1@gmail.com",
-          password: "password123!",
-          hiddenPassword: true,
-          link: "https://connect.secure.wellsfargo.com/auth/login/present"
-        },
-        {
-          account: "Facebook",
-          username: "nagata.steven1@gmail.com",
-          password: "helloWorld#5",
-          hiddenPassword: true,
-          link: "https://www.facebook.com/"
-        }
-      ]
+      accounts: this.props.accounts
     };
   }
   addAccount = event => {
@@ -218,4 +203,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default MyInfo;

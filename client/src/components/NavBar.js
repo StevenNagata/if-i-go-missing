@@ -18,7 +18,7 @@ export default function Navigation(props) {
           <Link style={linkStyle} to="/">Home</Link>
           <Link style={linkStyle} to="/myTrusties">Trusties</Link>
           <Link style={linkStyle} to="/myEntrusties">Entrusties</Link>
-          <Link style={linkStyle} to="/myAccount">Account</Link>
+          <Link style={linkStyle} to="/myInfo">My Info</Link>
         </Nav>
         <Nav>
           {props.appState.isAuth ? (
