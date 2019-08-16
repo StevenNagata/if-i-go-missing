@@ -15,24 +15,24 @@ class Trusties extends React.Component {
     super(props);
     this.state = {
       editMode: false,
-      trusties: [],
-      editedTrusties: []
+      trusties: this.props.trusties,
+      editedTrusties: this.props.trusties
     };
     this.deleteTrustie = this.deleteTrustie.bind(this);
   }
-  componentDidMount() {
-    fetch("user/1")
-      .then(res => {
-        console.log(res)
-        return res.json()})
-      .then(data => {
-        console.log(data)
-        this.setState({
-          trusties: data[0].trusties,
-          editedTrusties: data[0].trusties
-        });
-      });
-  }
+  // componentDidMount() {
+  //   fetch("user/1")
+  //     .then(res => {
+  //       console.log(res)
+  //       return res.json()})
+  //     .then(data => {
+  //       console.log(data)
+  //       this.setState({
+  //         trusties: data[0].trusties,
+  //         editedTrusties: data[0].trusties
+  //       });
+  //     });
+  // }
   addTrustie = event => {
     event.preventDefault();
     let copyOfEditedTrusties = this.state.editedTrusties.map(user =>

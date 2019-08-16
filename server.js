@@ -78,6 +78,34 @@ let users = [
         username: "andyrezz33@gmail.com",
         reportedAsMissing: true
       }
+    ],
+    entrusties: [
+      {
+        id: 1,
+        username: "nagata.steven1@gmail.com",
+        reportedAsMissing: false
+      },
+      {
+        id: 3,
+        username: "andre300@gmail.com",
+        reportedAsMissing: true
+      }
+    ],
+    accounts: [
+      {
+        account: "Wells Fargo",
+        username: "tifflui25@gmail.com",
+        password: "password123!",
+        hiddenPassword: true,
+        link: "https://connect.secure.wellsfargo.com/auth/login/present"
+      },
+      {
+        account: "Facebook",
+        username: "tifflui25@gmail.com",
+        password: "helloWorld#5",
+        hiddenPassword: true,
+        link: "https://www.facebook.com/"
+      }
     ]
   }
 ];

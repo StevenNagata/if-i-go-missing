@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Col,
-  ListGroup,
-  Button,
-  Modal
-} from "react-bootstrap";
+import { Container, Col, ListGroup, Button, Modal } from "react-bootstrap";
 
 class Trusties extends React.Component {
   constructor(props) {
@@ -13,33 +7,19 @@ class Trusties extends React.Component {
     this.state = {
       show: false,
       modalContent: null,
-      entrusties: []
+      entrusties: this.props.entrusties
     };
   }
-  componentDidMount() {
-    fetch("user/1")
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        this.setState({
-          entrusties: data[0].entrusties
-        });
-      });
+  componentWillReceiveProps(nextProps) {
+    this.setState({ entrusties: nextProps.entrusties });
   }
   handleClose = () => this.setState({ show: false });
   handleSave = () => {
-    fetch("updateMissingFlag/", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ id: this.state.modalContent.id , user: this.state.modalContent.username, requesterId: 1 })
-    })
-    .then(res => res.json())
-    .then(data => {
-        this.setState({entrusties: data[0].entrusties, show: false})
-    })
+    this.props.updateMissingFlag(
+      this.state.modalContent.id,
+      this.state.modalContent.username
+    );
+    this.setState({ show: false });
   };
   render() {
     if (this.state.entrusties.length === 0) {
