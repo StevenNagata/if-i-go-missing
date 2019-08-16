@@ -40,6 +40,22 @@ let users = [
         username: "andre300@gmail.com",
         reportedAsMissing: true
       }
+    ],
+    accounts: [
+      {
+        account: "Wells Fargo",
+        username: "nagata.steven1@gmail.com",
+        password: "password123!",
+        hiddenPassword: true,
+        link: "https://connect.secure.wellsfargo.com/auth/login/present"
+      },
+      {
+        account: "Facebook",
+        username: "nagata.steven1@gmail.com",
+        password: "helloWorld#5",
+        hiddenPassword: true,
+        link: "https://www.facebook.com/"
+      }
     ]
   },
   {
@@ -125,10 +141,34 @@ app.post("/updateMissingFlag", (req, res) => {
   res.json(currUser);
 });
 
+app.post("/updateInfo", (req,res) => {
+  console.log(req.body)
+  const updatedUsers = users.map(user => {
+    if(user.id.toString() === req.body.id.toString()) {
+      return Object.assign({}, user,{accounts: req.body.accounts})
+    } else {
+      return Object.assign({}, user)
+    }
+  })
+  users = updatedUsers
+  const user = users.find(user => user.id.toString() === req.body.id.toString())
+  res.json(user)
+})
+
+app.get("/info/:userId", (req,res) => {
+  const user = users.find(user => user.id.toString() === req.params.userId)
+  res.json(user.accounts)
+})
+
 app.get("/user/:userId", (req, res) => {
   const user = users.filter(user => user.id.toString() === req.params.userId);
   res.json(user);
 });
+
+
+
+
+
 
 app.listen(5000, () =>
   console.log("Express server is running on localhost:5000")

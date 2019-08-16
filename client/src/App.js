@@ -7,17 +7,29 @@ import Navigation from "../src/components/NavBar";
 import Login from "../src/pages/login";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MyProvider } from "../src/contexts/appContext";
-import { Link } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
-      isAuth: false
+      user: JSON.parse(localStorage.getItem('user')) || null,
+      isAuth: localStorage.getItem('user') ? true : false
     };
   }
   updateUser = (user, isAuth) => this.setState({ user, isAuth });
+  updateUserAccounts = (accounts) => {
+    fetch('/updateInfo', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({id: this.state.user.id, accounts: accounts})
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({user: data})
+    })
+  }
   render() {
     return (
       <div>
@@ -30,7 +42,9 @@ class App extends React.Component {
                   exact
                   path="/myInfo"
                   render={props => (
-                    <MyInfo {...props} accounts={this.state.user.accounts} />
+                    <MyInfo {...props} 
+                    accounts={this.state.user.accounts}
+                    updateUserAccounts={this.updateUserAccounts} />
                   )}
                 />
                 <Route exact path="/myTrusties" component={Trusties} />

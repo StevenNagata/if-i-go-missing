@@ -11,6 +11,9 @@ class MyInfo extends React.Component {
       accounts: this.props.accounts
     };
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ accounts: nextProps.accounts });  
+  }
   addAccount = event => {
     event.preventDefault();
     const target = event.target;
@@ -24,9 +27,7 @@ class MyInfo extends React.Component {
       hiddenPassword: true,
       link: target.link.value
     });
-    this.setState({
-      accounts: copyOfAccounts
-    });
+    this.props.updateUserAccounts(copyOfAccounts)
     event.target.reset();
   };
   editAccount = event => {
@@ -45,7 +46,8 @@ class MyInfo extends React.Component {
         return Object.assign({}, account);
       }
     });
-    this.setState({ accounts: copyOfAccounts, editNum: null });
+    this.props.updateUserAccounts(copyOfAccounts)
+    this.setState({ editNum: null });
   };
   showPassword = i => {
     const copyOfAccounts = this.state.accounts.map((account, index) => {
@@ -64,7 +66,7 @@ class MyInfo extends React.Component {
       <div>
         <Container
           style={{
-            padding: "0",
+            paddingBottom: "2rem",
             display: this.state.addAccount ? "" : "none"
           }}
         >

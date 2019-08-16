@@ -22,7 +22,10 @@ export default function Navigation(props) {
         </Nav>
         <Nav>
           {props.appState.isAuth ? (
-            <Link style={linkStyle} onClick={() => props.updateUser(null, false)} to="/login">
+            <Link style={linkStyle} onClick={() => {
+              props.updateUser(null, false)
+              window.localStorage.removeItem('user')
+            }} to="/login">
               Logout
             </Link>
           ) : (
