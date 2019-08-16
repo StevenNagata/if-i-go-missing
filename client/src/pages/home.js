@@ -2,29 +2,17 @@ import React from "react";
 import { Container, Col, Form, ListGroup, Button } from "react-bootstrap";
 import { CreateFormComponent } from "../components/formComponent";
 
-class Home extends React.Component {
+class MyInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       addAccount: true,
       editNum: null,
-      accounts: [
-        {
-          account: "Wells Fargo",
-          username: "nagata.steven1@gmail.com",
-          password: "password123!",
-          hiddenPassword: true,
-          link: "https://connect.secure.wellsfargo.com/auth/login/present"
-        },
-        {
-          account: "Facebook",
-          username: "nagata.steven1@gmail.com",
-          password: "helloWorld#5",
-          hiddenPassword: true,
-          link: "https://www.facebook.com/"
-        }
-      ]
+      accounts: this.props.accounts
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ accounts: nextProps.accounts });  
   }
   addAccount = event => {
     event.preventDefault();
@@ -39,9 +27,7 @@ class Home extends React.Component {
       hiddenPassword: true,
       link: target.link.value
     });
-    this.setState({
-      accounts: copyOfAccounts
-    });
+    this.props.updateUserAccounts(copyOfAccounts)
     event.target.reset();
   };
   editAccount = event => {
@@ -60,7 +46,8 @@ class Home extends React.Component {
         return Object.assign({}, account);
       }
     });
-    this.setState({ accounts: copyOfAccounts, editNum: null });
+    this.props.updateUserAccounts(copyOfAccounts)
+    this.setState({ editNum: null });
   };
   showPassword = i => {
     const copyOfAccounts = this.state.accounts.map((account, index) => {
@@ -79,7 +66,7 @@ class Home extends React.Component {
       <div>
         <Container
           style={{
-            padding: "0",
+            paddingBottom: "2rem",
             display: this.state.addAccount ? "" : "none"
           }}
         >
@@ -218,4 +205,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default MyInfo;

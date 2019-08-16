@@ -17,6 +17,7 @@ class Login extends React.Component {
       .then(data => {
         if (data.statusCode === 200) {
           this.props.updateUser(data.user, true);
+          window.localStorage.setItem('user', JSON.stringify(data.user))
           this.props.history.push('/')
         } else if (data.statusCode === 300) {
           window.alert(data.message)
