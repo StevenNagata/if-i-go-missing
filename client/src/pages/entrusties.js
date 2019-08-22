@@ -7,11 +7,34 @@ class Trusties extends React.Component {
     this.state = {
       show: false,
       modalContent: null,
-      entrusties: this.props.entrusties
+      entrusties: this.props.entrusties,
+      missingInformation: []
     };
+  }
+  componentDidMount() {
+    this.checkMissing();
+  }
+  checkMissing = () => {
+    const entrusties = this.props.entrusties.map(entrustie => entrustie.id);
+    fetch("/checkIfMissing", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ entrusties })
+    })
+      .then(res => res.json())
+      .then(data => {
+        const updatedEntrusties = this.state.entrusties.map(entrustie => {
+          const missingFlag = data.find(user => user.id === entrustie.id)
+          return Object.assign({}, entrustie, {missing: missingFlag.missing})
+        })
+        this.setState({entrusties: updatedEntrusties})
+      });
   }
   componentWillReceiveProps(nextProps) {
     this.setState({ entrusties: nextProps.entrusties });
+    this.checkMissing();
   }
   handleClose = () => this.setState({ show: false });
   handleSave = () => {
@@ -22,6 +45,7 @@ class Trusties extends React.Component {
     this.setState({ show: false });
   };
   render() {
+    console.log(this.state)
     if (this.state.entrusties.length === 0) {
       return (
         <div style={{ position: "relative", height: "10rem" }}>
@@ -79,21 +103,35 @@ class Trusties extends React.Component {
                     ? { color: "success", text: "Report as safe" }
                     : { color: "danger", text: "Report as missing" };
                   return (
-                    <ListGroup.Item
-                      key={user.username}
-                      onClick={() =>
-                        this.setState({ show: true, modalContent: user })
-                      }
-                    >
+                    <ListGroup.Item key={user.username} style={{backgroundColor: user.reportedAsMissing ? "#F8D7DA" : "#FFFFFF"}}>
                       <span>{user.username}</span>
-                      {}
                       <Button
                         style={{ postion: "absolute", float: "right" }}
                         size="sm"
                         variant={reportButton.color}
+                        onClick={() =>
+                          this.setState({ show: true, modalContent: user })
+                        }
                       >
                         {reportButton.text}
                       </Button>
+                      
+                      {user.missing && (
+                        <div>
+                          <hr/>
+                        <span>
+                          This user has been reported as missing by all thier trusties. You may now access their information.
+                          </span>
+                          <div style={{margin: '0.4rem'}}>
+                          <Button 
+                          variant="dark"
+                          onClick={()=> {
+                            this.props.history.push(`/missingPerson#${user.id}`)
+                          }}>View Missing Information</Button>
+                          </div>
+                        </div>
+                      )}
+                      
                     </ListGroup.Item>
                   );
                 })}

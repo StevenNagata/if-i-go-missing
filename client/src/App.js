@@ -4,6 +4,7 @@ import MyInfo from "../src/pages/home";
 import Trusties from "../src/pages/trusties";
 import Entrusties from "../src/pages/entrusties";
 import Navigation from "../src/components/NavBar";
+import MissingPerson from "../src/pages/missingPerson";
 import Login from "../src/pages/login";
 import {
   BrowserRouter as Router,
@@ -46,6 +47,8 @@ class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.setState({ user: data[0] });
+        localStorage.removeItem('user')
+        localStorage.setItem('user', JSON.stringify(data[0]))
       });
   };
   render() {
@@ -94,6 +97,20 @@ class App extends React.Component {
                         {...props}
                         entrusties={this.state.user.entrusties}
                         updateMissingFlag={this.updateMissingFlag}
+                      />
+                    ) : (
+                      <Redirect to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  exact
+                  path="/missingPerson"
+                  render={props =>
+                    this.state.isAuth ? (
+                      <MissingPerson
+                        {...props}
+                        requesterId={this.state.user.id}
                       />
                     ) : (
                       <Redirect to="/login" />
